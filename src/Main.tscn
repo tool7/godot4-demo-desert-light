@@ -60,9 +60,9 @@ emission_shape = 3
 emission_box_extents = Vector3(25, 20, 40)
 direction = Vector3(0, 0, -1)
 spread = 10.0
-gravity = Vector3(0, 0, -4)
 initial_velocity_min = 0.1
 initial_velocity_max = 2.0
+gravity = Vector3(0, 0, -4)
 scale_min = 0.7
 scale_max = 1.5
 color_ramp = SubResource("GradientTexture1D_m80va")
@@ -152,9 +152,9 @@ emission_shape = 3
 emission_box_extents = Vector3(15, 20, 30)
 direction = Vector3(0, 1, 0)
 spread = 0.0
-gravity = Vector3(0, 10, -10)
 initial_velocity_min = 2.0
 initial_velocity_max = 6.0
+gravity = Vector3(0, 10, -10)
 radial_accel_min = -40.0
 radial_accel_max = -40.0
 damping_min = 12.0
@@ -619,24 +619,24 @@ autoplay = true
 panning_strength = 0.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "new_animation"
 libraries = {
 "": SubResource("AnimationLibrary_joy5y")
 }
+autoplay = "new_animation"
 
 [node name="CinematicCam" type="Camera3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(0.988483, 0.0669845, -0.135699, -0.0697479, 0.997441, -0.0157073, 0.1343, 0.0249912, 0.990625, 1.342, 7.346, 60.423)
+transform = Transform3D(0.988483, 0.0669846, -0.135699, -0.0697479, 0.997441, -0.0157073, 0.1343, 0.0249912, 0.990625, 1.342, 7.346, 60.423)
 current = true
 fov = 70.0
 far = 400.0
 
 [node name="CamAnimationPlayer" type="AnimationPlayer" parent="CinematicCam"]
-autoplay = "crane"
-speed_scale = 0.15
 libraries = {
 "": SubResource("AnimationLibrary_cw8y0")
 }
+autoplay = "crane"
+speed_scale = 0.15
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -1062,11 +1062,11 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_2ln03")
 text = "Borderless Window Fullscreen"
 
@@ -1075,11 +1075,11 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_2ln03")
 text = "Exclusive Fullscreen"
 
@@ -1092,11 +1092,11 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_a415x")
 text = "Show FPS"
 
@@ -1105,11 +1105,11 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_a415x")
 button_pressed = true
 text = "Enable VSync"
@@ -1119,11 +1119,11 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_a415x")
 button_pressed = true
 text = "Cinematic Black Bars"
@@ -1166,11 +1166,11 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
 button_pressed = true
 text = "SSAO"
 
@@ -1179,11 +1179,11 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
 button_pressed = true
 text = "Volumetric Fog"
 
@@ -1192,11 +1192,11 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
 text = "Temporal Anti-Aliasing"
 
 [node name="RenderResolutionLabel" type="Label" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality"]
@@ -1217,12 +1217,12 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_disabled_color = Color(0.596078, 0.596078, 0.596078, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_2ln03")
 button_pressed = true
 text = "FXAA"
