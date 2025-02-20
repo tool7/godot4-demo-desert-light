@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Desert Light - by Raffaele Picca"
-run/main_scene="res://Main.tscn"
+config/name="Desert Light - fork by tool7"
+run/main_scene="res://Main_Extended.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://project-icon.png"
 

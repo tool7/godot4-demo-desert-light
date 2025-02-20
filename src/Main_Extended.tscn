@@ -1,0 +1,758 @@
+[gd_scene load_steps=31 format=3 uid="uid://csosjonr2u31f"]
+
+[ext_resource type="Script" path="res://scripts/main_extended.gd" id="1_1t2hh"]
+[ext_resource type="Environment" uid="uid://cfk37fm4ah0d3" path="res://assets/resources/raffa_environment.tres" id="2_8js8t"]
+[ext_resource type="PackedScene" uid="uid://jnpqvgwevjl" path="res://scenes/DesertCaveScene_Extended.tscn" id="3_5sagk"]
+[ext_resource type="PackedScene" uid="uid://bdupkh0grwy27" path="res://scenes/Player/Player.tscn" id="4_i1rep"]
+[ext_resource type="VoxelGIData" uid="uid://dtwlpshcjqm64" path="res://baked/voxel_gi_bake.res" id="5_t5k4b"]
+[ext_resource type="AudioStream" uid="uid://btv1xaedtyl6u" path="res://assets/audio/WhatInTheSound_Wind.mp3" id="8_gj0al"]
+[ext_resource type="Theme" uid="uid://bwkgdwgpi80ja" path="res://theme.tres" id="9_j44xc"]
+[ext_resource type="Texture2D" uid="uid://wo8i8o3dwyol" path="res://assets/textures/icon_color_outline.svg" id="10_0ovdo"]
+
+[sub_resource type="Gradient" id="Gradient_kyrfs"]
+offsets = PackedFloat32Array(0.243976, 0.478916, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.21875, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_r0elj"]
+gradient = SubResource("Gradient_kyrfs")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8olmv"]
+transparency = 1
+disable_ambient_light = true
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.898039, 0.870588, 1, 0.101961)
+albedo_texture = SubResource("GradientTexture2D_r0elj")
+emission_enabled = true
+emission = Color(0.529412, 0.329412, 0.207843, 1)
+emission_energy_multiplier = 2.0
+backlight_enabled = true
+backlight = Color(1, 1, 1, 1)
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+proximity_fade_enabled = true
+proximity_fade_distance = 10.0
+
+[sub_resource type="Gradient" id="Gradient_acsdg"]
+offsets = PackedFloat32Array(0, 0.704819, 1)
+colors = PackedColorArray(1, 1, 1, 0.309804, 1, 1, 1, 0.523931, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qhavj"]
+gradient = SubResource("Gradient_acsdg")
+
+[sub_resource type="Gradient" id="Gradient_v83qe"]
+offsets = PackedFloat32Array(0, 0.471429, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_m80va"]
+gradient = SubResource("Gradient_v83qe")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rtma0"]
+lifetime_randomness = 0.7
+emission_shape = 3
+emission_box_extents = Vector3(25, 20, 40)
+direction = Vector3(0, 0, -1)
+spread = 10.0
+initial_velocity_min = 0.1
+initial_velocity_max = 2.0
+gravity = Vector3(0, 0, -4)
+scale_min = 0.7
+scale_max = 1.5
+color_ramp = SubResource("GradientTexture1D_m80va")
+color_initial_ramp = SubResource("GradientTexture1D_qhavj")
+turbulence_enabled = true
+turbulence_noise_strength = 20.0
+turbulence_noise_scale = 8.0
+turbulence_noise_speed = Vector3(0, 0, -1)
+turbulence_influence_min = 0.02
+turbulence_influence_max = 0.05
+turbulence_initial_displacement_min = 0.1
+turbulence_initial_displacement_max = 0.2
+
+[sub_resource type="QuadMesh" id="QuadMesh_522fc"]
+size = Vector2(0.06, 0.06)
+
+[sub_resource type="FogMaterial" id="FogMaterial_rskpm"]
+albedo = Color(0.396078, 0.376471, 0.27451, 1)
+height_falloff = 0.318641
+edge_fade = 0.492456
+
+[sub_resource type="Shader" id="Shader_ln5wl"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.0.3.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_add,unshaded;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
+uniform float point_size : hint_range(0,128);
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+
+void vertex() {
+	UV=UV*uv1_scale.xy+uv1_offset.xy;
+	mat4 mat_world = mat4(normalize(INV_VIEW_MATRIX[0]), normalize(INV_VIEW_MATRIX[1]) ,normalize(INV_VIEW_MATRIX[2]), MODEL_MATRIX[3]);
+	mat_world = mat_world * mat4(vec4(cos(INSTANCE_CUSTOM.x), -sin(INSTANCE_CUSTOM.x), 0.0, 0.0), vec4(sin(INSTANCE_CUSTOM.x), cos(INSTANCE_CUSTOM.x), 0.0, 0.0), vec4(0.0, 0.0, 1.0, 0.0), vec4(0.0, 0.0, 0.0, 1.0));
+	MODELVIEW_MATRIX = VIEW_MATRIX * mat_world;
+	MODELVIEW_MATRIX = MODELVIEW_MATRIX * mat4(vec4(length(MODEL_MATRIX[0].xyz), 0.0, 0.0, 0.0),vec4(0.0, length(MODEL_MATRIX[1].xyz), 0.0, 0.0), vec4(0.0, 0.0, length(MODEL_MATRIX[2].xyz), 0.0), vec4(0.0, 0.0, 0.0, 1.0));
+	MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
+}
+
+
+void fragment() {
+	vec2 base_uv = UV;
+	vec4 albedo_tex = texture(texture_albedo,base_uv);
+	albedo_tex.rgb = mix(pow((albedo_tex.rgb + vec3(0.055)) * (1.0 / (1.0 + 0.055)),vec3(2.4)),albedo_tex.rgb.rgb * (1.0 / 12.92),lessThan(albedo_tex.rgb,vec3(0.04045)));
+	ALBEDO = COLOR.rgb*albedo_tex.rgb * albedo.rgb;
+	ALBEDO -= FOG.rgb;
+	ROUGHNESS = 0.0;
+}
+"
+
+[sub_resource type="Gradient" id="Gradient_majqd"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6736x"]
+gradient = SubResource("Gradient_majqd")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7wlj5"]
+render_priority = 0
+shader = SubResource("Shader_ln5wl")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/texture_albedo = SubResource("GradientTexture2D_6736x")
+
+[sub_resource type="Gradient" id="Gradient_asiuf"]
+offsets = PackedFloat32Array(0, 0.214286, 0.5, 0.774436, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.394205, 0.297227, 0.421053, 1, 0.54, 0.678, 1, 1, 0.475314, 0.281936, 0.5125, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_awlat"]
+gradient = SubResource("Gradient_asiuf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bvwt3"]
+lifetime_randomness = 0.4
+emission_shape = 3
+emission_box_extents = Vector3(15, 20, 30)
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 2.0
+initial_velocity_max = 6.0
+gravity = Vector3(0, 10, -10)
+radial_accel_min = -40.0
+radial_accel_max = -40.0
+damping_min = 12.0
+damping_max = 14.0
+scale_min = 0.2
+scale_max = 0.8
+color = Color(1.14006, 2, 1.97015, 1)
+color_ramp = SubResource("GradientTexture1D_awlat")
+turbulence_enabled = true
+turbulence_noise_scale = 9.44
+turbulence_noise_speed = Vector3(0.8, 0.2, 0.2)
+turbulence_noise_speed_random = 0.1
+turbulence_influence_min = 0.05
+turbulence_initial_displacement_min = 5.0
+turbulence_initial_displacement_max = 5.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_w2ma6"]
+size = Vector2(0.2, 0.2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jbf7m"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 1, 1, 0.831373)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2ln03"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a415x"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ygxh3"]
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 0.227451)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="DesertCaveScene" type="Node3D"]
+script = ExtResource("1_1t2hh")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("2_8js8t")
+
+[node name="MainLight" type="Node3D" parent="."]
+transform = Transform3D(0.792009, 0.209905, 0.57329, -0.261609, 0.96514, 0.00804049, -0.551617, -0.156346, 0.819313, 8.76583, 8.91996, -1.80336)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="MainLight"]
+transform = Transform3D(-0.83786, 0.433389, -0.331911, -0.0872093, 0.493944, 0.865109, 0.538874, 0.753786, -0.37606, 0, 0, 0)
+light_color = Color(1, 0.403922, 0.372549, 1)
+light_energy = 0.0
+light_indirect_energy = 0.7
+light_volumetric_fog_energy = 2.0
+shadow_enabled = true
+shadow_bias = 0.04
+shadow_normal_bias = 4.0
+shadow_blur = 2.0
+directional_shadow_split_1 = 0.2
+directional_shadow_split_2 = 0.3
+directional_shadow_split_3 = 0.6
+directional_shadow_fade_start = 1.0
+directional_shadow_max_distance = 95.0
+
+[node name="Scenery" type="Node3D" parent="."]
+
+[node name="TempleScene" parent="Scenery" instance=ExtResource("3_5sagk")]
+
+[node name="SandParticle" type="GPUParticles3D" parent="Scenery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.43879, 19.4646, 13.9359)
+material_override = SubResource("StandardMaterial3D_8olmv")
+gi_mode = 0
+amount = 30000
+lifetime = 5.0
+visibility_aabb = AABB(-40, -40, -40, 80, 80, 80)
+process_material = SubResource("ParticleProcessMaterial_rtma0")
+draw_pass_1 = SubResource("QuadMesh_522fc")
+
+[node name="FogVolume" type="FogVolume" parent="Scenery"]
+transform = Transform3D(0.516533, 0, 0.856267, 0, 1, 0, -0.856267, 0, 0.516533, 47.724, 1.55066, 50)
+size = Vector3(70, 30, 30)
+material = SubResource("FogMaterial_rskpm")
+
+[node name="FogVolume2" type="FogVolume" parent="Scenery"]
+transform = Transform3D(0.999816, 0, -0.0191625, 0, 1, 0, 0.0191625, 0, 0.999816, 12.7668, 1.55066, 74.9029)
+size = Vector3(70, 30, 30)
+material = SubResource("FogMaterial_rskpm")
+
+[node name="FogVolume3" type="FogVolume" parent="Scenery"]
+transform = Transform3D(0.397148, 0, -0.917755, 0, 1, 0, 0.917755, 0, 0.397148, -30.155, 2.445, 52.981)
+size = Vector3(70, 30, 30)
+material = SubResource("FogMaterial_rskpm")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Scenery"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.949955, 0, 72.5502)
+
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="Scenery/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.78536)
+depth = 20.0
+polygon = PackedVector2Array(-16.3829, 10.4146, -0.254908, 5.42844, 19.3756, 5.077, 34.8034, 9.80763, 48.8385, 19.1028, 51.4239, 27.8439, 47.4951, 35.4319, 51.3116, 41.7723, 56.9749, 33.1543, 56.0262, 14.4219, 37.3128, 0.75618, 1.36343, -2.26012, -29.9799, 2.98486, -38.9672, 24.4067, -35.4656, 42.9783, -32.3262, 34.4834, -32.634, 24.7574)
+
+[node name="Player" parent="Scenery" instance=ExtResource("4_i1rep")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 4.5, 5.231, -17.552)
+
+[node name="VoxelGI" type="VoxelGI" parent="Scenery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.633, 24.9082, 15)
+subdiv = 2
+size = Vector3(97, 65, 110)
+data = ExtResource("5_t5k4b")
+
+[node name="DoorLights" type="Node3D" parent="Scenery"]
+
+[node name="OmniLightOutsideDoor" type="OmniLight3D" parent="Scenery/DoorLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.34875, 9.3132, -22.5471)
+light_color = Color(0, 0.831373, 1, 1)
+light_energy = 2.0
+light_size = 0.5
+light_bake_mode = 1
+shadow_enabled = true
+omni_range = 10.0
+
+[node name="OmniLightInsideDoor" type="OmniLight3D" parent="Scenery/DoorLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.45705, 10.7077, -30.7985)
+light_color = Color(0, 0.713726, 1, 1)
+light_energy = 50.0
+light_indirect_energy = 0.05
+light_bake_mode = 1
+shadow_enabled = true
+shadow_bias = 0.038
+shadow_normal_bias = 2.817
+shadow_blur = 0.302
+omni_range = 15.0
+
+[node name="Fireflies" type="GPUParticles3D" parent="Scenery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.88724, 11.0825, 0)
+material_override = SubResource("ShaderMaterial_7wlj5")
+cast_shadow = 0
+amount = 200
+lifetime = 3.0
+fixed_fps = 60
+interpolate = false
+visibility_aabb = AABB(-100, -100, -100, 200, 200, 200)
+process_material = SubResource("ParticleProcessMaterial_bvwt3")
+draw_pass_1 = SubResource("QuadMesh_w2ma6")
+
+[node name="Audio" type="Node3D" parent="."]
+
+[node name="Wind" type="AudioStreamPlayer3D" parent="Audio"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.25629, 4.79422, 45.8522)
+stream = ExtResource("8_gj0al")
+volume_db = -8.0
+unit_size = 5.0
+max_db = -8.0
+pitch_scale = 0.7
+autoplay = true
+panning_strength = 0.0
+
+[node name="Wind2" type="AudioStreamPlayer3D" parent="Audio"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.2278, 13.3916, -3.49289)
+stream = ExtResource("8_gj0al")
+volume_db = -4.0
+unit_size = 8.0
+max_db = -4.0
+pitch_scale = 0.7
+autoplay = true
+panning_strength = 0.0
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MainMenu" type="MarginContainer" parent="UI"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("9_j44xc")
+theme_override_constants/margin_right = 40
+
+[node name="PanelContainer" type="PanelContainer" parent="UI/MainMenu"]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_jbf7m")
+
+[node name="UI" type="VBoxContainer" parent="UI/MainMenu/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HeaderLabel" type="Label" parent="UI/MainMenu/PanelContainer/UI"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Desert Light"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="UI/MainMenu/PanelContainer/UI"]
+layout_mode = 2
+
+[node name="Control1" type="Control" parent="UI/MainMenu/PanelContainer/UI"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="UI/MainMenu/PanelContainer/UI"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Resume"
+
+[node name="SettingsButton" type="Button" parent="UI/MainMenu/PanelContainer/UI"]
+layout_mode = 2
+text = "Settings"
+
+[node name="QuitButton" type="Button" parent="UI/MainMenu/PanelContainer/UI"]
+layout_mode = 2
+text = "Quit to Desktop"
+
+[node name="Control2" type="Control" parent="UI/MainMenu/PanelContainer/UI"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Credits" type="VBoxContainer" parent="UI/MainMenu/PanelContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HeaderLabel" type="Label" parent="UI/MainMenu/PanelContainer/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Credits & License"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/MainMenu/PanelContainer/Credits"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("10_0ovdo")
+stretch_mode = 2
+
+[node name="Godot" type="Label" parent="UI/MainMenu/PanelContainer/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "Made in the Godot Engine (4.0.3)"
+horizontal_alignment = 1
+
+[node name="Label11" type="Label" parent="UI/MainMenu/PanelContainer/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.184314, 0.184314, 0.184314, 1)
+text = "https://godotengine.org/license/"
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="UI/MainMenu/PanelContainer/Credits"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MainMenu/PanelContainer/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "Project and 3D Assets"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="UI/MainMenu/PanelContainer/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.184314, 0.184314, 0.184314, 1)
+text = "Raffaele Picca"
+horizontal_alignment = 1
+
+[node name="Control2" type="Control" parent="UI/MainMenu/PanelContainer/Credits"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="UI/MainMenu/PanelContainer/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "Music"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="UI/MainMenu/PanelContainer/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.184314, 0.184314, 0.184314, 1)
+text = "Paolo Dollorenzo"
+horizontal_alignment = 1
+
+[node name="Control4" type="Control" parent="UI/MainMenu/PanelContainer/Credits"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="UI/MainMenu/PanelContainer/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "Torch and Wind Sound Effects"
+horizontal_alignment = 1
+
+[node name="Label6" type="Label" parent="UI/MainMenu/PanelContainer/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.184314, 0.184314, 0.184314, 1)
+text = "@WhatInTheSound (Twitter)"
+horizontal_alignment = 1
+
+[node name="Control5" type="Control" parent="UI/MainMenu/PanelContainer/Credits"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="Label7" type="Label" parent="UI/MainMenu/PanelContainer/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "Player Controller"
+horizontal_alignment = 1
+
+[node name="Label8" type="Label" parent="UI/MainMenu/PanelContainer/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.184314, 0.184314, 0.184314, 1)
+text = "Dimitar Dimitrov
+@Whimfoome (GitHub)"
+horizontal_alignment = 1
+
+[node name="Control6" type="Control" parent="UI/MainMenu/PanelContainer/Credits"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="Label9" type="Label" parent="UI/MainMenu/PanelContainer/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "Stylized Fire Shader (modified)"
+horizontal_alignment = 1
+
+[node name="Label10" type="Label" parent="UI/MainMenu/PanelContainer/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.184314, 0.184314, 0.184314, 1)
+text = "GDQuest and contributors
+(https://www.gdquest.com/)."
+horizontal_alignment = 1
+
+[node name="Control3" type="Control" parent="UI/MainMenu/PanelContainer/Credits"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="CloseCreditsButton" type="Button" parent="UI/MainMenu/PanelContainer/Credits"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Back to Main Menu"
+
+[node name="Settings" type="VBoxContainer" parent="UI/MainMenu/PanelContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="HeaderLabel" type="Label" parent="UI/MainMenu/PanelContainer/Settings"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="GridContainer" parent="UI/MainMenu/PanelContainer/Settings"]
+layout_mode = 2
+theme_override_constants/h_separation = 40
+columns = 3
+
+[node name="General" type="VBoxContainer" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/General"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 19
+text = "General"
+horizontal_alignment = 1
+
+[node name="WFullScreenCheckBox" type="CheckButton" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/General"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_2ln03")
+text = "Borderless Window Fullscreen"
+
+[node name="FullScreenCheckBox" type="CheckButton" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/General"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_2ln03")
+text = "Exclusive Fullscreen"
+
+[node name="Control" type="Control" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/General"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="FPSCheckBox" type="CheckButton" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/General"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_a415x")
+text = "Show FPS"
+
+[node name="VSyncEnableCheckBox" type="CheckButton" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/General"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_a415x")
+button_pressed = true
+text = "Enable VSync"
+
+[node name="CinematicCheckBox" type="CheckButton" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/General"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_a415x")
+button_pressed = true
+text = "Cinematic Black Bars"
+
+[node name="VSeparator" type="VSeparator" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer"]
+layout_mode = 2
+
+[node name="Quality" type="VBoxContainer" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 19
+text = "Quality"
+horizontal_alignment = 1
+
+[node name="GeneralQualityLabel" type="Label" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
+text = "General Quality"
+
+[node name="GeneralQualityOptionButton" type="OptionButton" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MSAALabel" type="Label" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
+text = "MSAA"
+
+[node name="MSAAOptionButton" type="OptionButton" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SSAOCheckbox" type="CheckButton" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
+button_pressed = true
+text = "SSAO"
+
+[node name="VolumentricFogCheckbox" type="CheckButton" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
+button_pressed = true
+text = "Volumetric Fog"
+
+[node name="TemporalButton" type="CheckButton" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
+text = "Temporal Anti-Aliasing"
+
+[node name="RenderResolutionLabel" type="Label" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
+text = "Rendering Scale: 100%"
+
+[node name="RenderResolutionSlider" type="HSlider" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality"]
+layout_mode = 2
+min_value = 0.25
+max_value = 2.0
+step = 0.05
+value = 0.95
+
+[node name="FXAAButton" type="CheckButton" parent="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_disabled_color = Color(0.596078, 0.596078, 0.596078, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_2ln03")
+button_pressed = true
+text = "FXAA"
+
+[node name="Control" type="Control" parent="UI/MainMenu/PanelContainer/Settings"]
+layout_mode = 2
+
+[node name="CloseSettingsButton" type="Button" parent="UI/MainMenu/PanelContainer/Settings"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Close Settings"
+
+[node name="FPSLabel" type="Label" parent="UI"]
+unique_name_in_owner = true
+anchors_preset = -1
+anchor_left = 0.006
+anchor_top = 0.01
+anchor_right = 0.01
+anchor_bottom = 0.05
+offset_left = 0.48
+offset_top = 0.2
+offset_right = 115.8
+offset_bottom = -12.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.498039, 0.498039, 0.498039, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_ygxh3")
+text = "FPS:"
+
+[connection signal="pressed" from="UI/MainMenu/PanelContainer/UI/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="UI/MainMenu/PanelContainer/UI/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="UI/MainMenu/PanelContainer/UI/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="UI/MainMenu/PanelContainer/Credits/CloseCreditsButton" to="." method="_on_close_credits_button_pressed"]
+[connection signal="pressed" from="UI/MainMenu/PanelContainer/Settings/HBoxContainer/General/WFullScreenCheckBox" to="." method="_on_w_full_screen_check_box_pressed"]
+[connection signal="pressed" from="UI/MainMenu/PanelContainer/Settings/HBoxContainer/General/FullScreenCheckBox" to="." method="_on_full_screen_check_box_pressed"]
+[connection signal="pressed" from="UI/MainMenu/PanelContainer/Settings/HBoxContainer/General/FPSCheckBox" to="." method="_on_fps_check_box_pressed"]
+[connection signal="pressed" from="UI/MainMenu/PanelContainer/Settings/HBoxContainer/General/VSyncEnableCheckBox" to="." method="_on_v_sync_enable_check_box_pressed"]
+[connection signal="pressed" from="UI/MainMenu/PanelContainer/Settings/HBoxContainer/General/CinematicCheckBox" to="." method="_on_cinematic_check_box_pressed"]
+[connection signal="item_selected" from="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality/GeneralQualityOptionButton" to="." method="_on_general_quality_option_button_item_selected"]
+[connection signal="item_selected" from="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality/MSAAOptionButton" to="." method="_on_msaa_option_button_item_selected"]
+[connection signal="pressed" from="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality/SSAOCheckbox" to="." method="_on_ssao_checkbox_pressed"]
+[connection signal="pressed" from="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality/VolumentricFogCheckbox" to="." method="_on_volumentric_fog_checkbox_pressed"]
+[connection signal="pressed" from="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality/TemporalButton" to="." method="_on_temporal_button_pressed"]
+[connection signal="value_changed" from="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality/RenderResolutionSlider" to="." method="_on_render_resolution_slider_value_changed"]
+[connection signal="pressed" from="UI/MainMenu/PanelContainer/Settings/HBoxContainer/Quality/FXAAButton" to="." method="_on_fxaa_button_pressed"]
+[connection signal="pressed" from="UI/MainMenu/PanelContainer/Settings/CloseSettingsButton" to="." method="_on_close_settings_button_pressed"]
