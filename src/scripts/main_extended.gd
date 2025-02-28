@@ -2,17 +2,12 @@ extends Node3D
 
 var showing_menu := false
 
-@onready var door_open_animation_player: AnimationPlayer = get_node("Scenery/TempleScene/%DoorOpenAnimationPlayer")
-
 func _enter_tree():
 	AudioServer.set_bus_volume_db(0, -24)
 	%MainMenu.modulate.a = 0.0
 
 
-func _ready():
-#	TODO: IMPLEMENT ANIMATION !!!
-	door_open_animation_player.play("door_open_animation")
-	
+func _ready():	
 	$WorldEnvironment.environment.adjustment_brightness = 0.01
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	var tween = get_tree().create_tween()
