@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=4 uid="uid://jnpqvgwevjl"]
+[gd_scene load_steps=53 format=4 uid="uid://jnpqvgwevjl"]
 
 [ext_resource type="PackedScene" uid="uid://b5tvgrv70krpk" path="res://scenes/prepared/temple_pillar_full.tscn" id="1_68wpb"]
 [ext_resource type="PackedScene" uid="uid://cfu10364mn16b" path="res://scenes/prepared/temple_pillar_broken.tscn" id="2_ulc4k"]
@@ -19,11 +19,14 @@
 [ext_resource type="PackedScene" uid="uid://cdg7qxr7wrxd0" path="res://scenes/base/debris/temple_debris_8.tscn" id="17_bf4g3"]
 [ext_resource type="PackedScene" uid="uid://dgl0sx13yr3km" path="res://scenes/base/temple_pillars/temple_pillar_stone.tscn" id="18_efq0l"]
 [ext_resource type="PackedScene" uid="uid://dvutajdsd780m" path="res://scenes/base/temple_pillars/temple_door.tscn" id="19_wj3pj"]
+[ext_resource type="AudioStream" uid="uid://8ycg4w25nglr" path="res://assets/audio/door_opening.wav" id="20_7sad1"]
 [ext_resource type="PackedScene" uid="uid://c8ngey6uofnr7" path="res://scenes/prepared/temple_arc.tscn" id="20_jol4w"]
 [ext_resource type="Material" uid="uid://b1j826thlvcx7" path="res://assets/materials/mat_temple.tres" id="21_8cx8d"]
 [ext_resource type="PackedScene" uid="uid://oxp303ddd6nh" path="res://scenes/base/temple_pillars/templearc_side_1.tscn" id="22_2m816"]
 [ext_resource type="PackedScene" uid="uid://cmo4f48n3mu3u" path="res://scenes/base/ground_sand.tscn" id="23_4nvyg"]
 [ext_resource type="Texture2D" uid="uid://pgkn7qm0d181" path="res://assets/textures/wall_albedo.png" id="23_06wxj"]
+[ext_resource type="PackedScene" uid="uid://bxi8rvx7jwqlm" path="res://scenes/Lever/lever.tscn" id="23_qny07"]
+[ext_resource type="AudioStream" uid="uid://c1ui3u6vb37ye" path="res://assets/audio/lever_pull.wav" id="24_f66na"]
 [ext_resource type="Texture2D" uid="uid://csae0m7a2mros" path="res://assets/textures/wall_normal.png" id="24_k4asv"]
 [ext_resource type="PackedScene" uid="uid://bmkr6g26ix3ow" path="res://scenes/base/rocks/rock_big.tscn" id="24_vlupo"]
 [ext_resource type="PackedScene" uid="uid://bc1l4deuw25a0" path="res://scenes/base/rocks/rock_small.tscn" id="25_4mina"]
@@ -41,14 +44,14 @@ tracks/0/keys = PackedFloat32Array(0, 1, 0.15, 5.8, -3.948)
 
 [sub_resource type="Animation" id="Animation_a7c3g"]
 resource_name = "door_open_animation"
-length = 8.0
+length = 9.0
 tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0.15, 5.8, -3.948, 8, 1, 0.15, -6, -3.948)
+tracks/0/keys = PackedFloat32Array(0, 1, 0.15, 5.8, -3.948, 9, 1, 0.15, -6, -3.948)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1l4i6"]
 _data = {
@@ -320,6 +323,9 @@ transform = Transform3D(1.86118e-15, 0.974091, -0.226158, -1, 1.91069e-15, 0, 4.
 [node name="Entrance" type="Node3D" parent="Temple"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.24202, 3.81851, -21.8594)
 
+[node name="temple_door" parent="Temple/Entrance" instance=ExtResource("19_wj3pj")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.15, 5.8, -3.948)
+
 [node name="DoorOpenAnimationPlayer" type="AnimationPlayer" parent="Temple/Entrance"]
 unique_name_in_owner = true
 root_node = NodePath("../temple_door")
@@ -327,8 +333,9 @@ libraries = {
 "": SubResource("AnimationLibrary_1l4i6")
 }
 
-[node name="temple_door" parent="Temple/Entrance" instance=ExtResource("19_wj3pj")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.15, 5.8, -3.948)
+[node name="TempleDoorAudioPlayer" type="AudioStreamPlayer3D" parent="Temple/Entrance"]
+unique_name_in_owner = true
+stream = ExtResource("20_7sad1")
 
 [node name="TempleArc2" parent="Temple/Entrance" instance=ExtResource("20_jol4w")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.0257044, -0.149344, -3.92501)
@@ -752,6 +759,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -21.9158)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Temple/Entrance/Tunnel_Walls/Right_Wall2/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0037, 5.47811, -21.2953)
 shape = SubResource("BoxShape3D_h3263")
+
+[node name="GateLeverNode" type="Node3D" parent="Temple/Entrance"]
+
+[node name="GateLeverSpotLight" type="SpotLight3D" parent="Temple/Entrance/GateLeverNode"]
+transform = Transform3D(0.631434, -3.38951e-08, 0.77543, -0.77543, -2.76009e-08, 0.631434, 0, -1, -4.37114e-08, -2.11293, 3.25691, 1.63803)
+light_color = Color(0.995855, 1, 0.928571, 1)
+light_energy = 5.0
+spot_range = 8.0
+spot_angle = 25.0
+
+[node name="GateLeverOmniLight" type="OmniLight3D" parent="Temple/Entrance/GateLeverNode"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.69702, 1.55544, 1.6306)
+
+[node name="GateLever" parent="Temple/Entrance/GateLeverNode" instance=ExtResource("23_qny07")]
+unique_name_in_owner = true
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, -3.70864, 0.258837, 1.644)
+
+[node name="GateLeverAudioPlayer" type="AudioStreamPlayer3D" parent="Temple/Entrance/GateLeverNode"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.63777, 1.47866, 1.70148)
+stream = ExtResource("24_f66na")
 
 [node name="EndCap" type="MeshInstance3D" parent="Temple"]
 transform = Transform3D(3.695, 0, 0, 0, 3.695, 0, 0, 0, 24.0212, 4.26274, 8.13512, -62.7177)

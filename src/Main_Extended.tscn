@@ -226,6 +226,7 @@ directional_shadow_max_distance = 95.0
 [node name="Scenery" type="Node3D" parent="."]
 
 [node name="TempleScene" parent="Scenery" instance=ExtResource("3_5sagk")]
+unique_name_in_owner = true
 
 [node name="SandParticle" type="GPUParticles3D" parent="Scenery"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.43879, 19.4646, 13.9359)
