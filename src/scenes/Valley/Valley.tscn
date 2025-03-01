@@ -1,0 +1,47 @@
+[gd_scene load_steps=10 format=3 uid="uid://bxgpfghm64114"]
+
+[ext_resource type="Texture2D" uid="uid://cytmvlyglm1g4" path="res://assets/textures/sand_texture/GroundSand005_COL_1K.jpg" id="1_ehkkl"]
+[ext_resource type="Texture2D" uid="uid://bl6qvg0xahy43" path="res://assets/textures/sand_texture/GroundSand005_AO_1K.jpg" id="2_c17q7"]
+[ext_resource type="Texture2D" uid="uid://dt068uib8loks" path="res://assets/textures/sand_texture/GroundSand005_DISP_1K.jpg" id="2_v78wj"]
+[ext_resource type="Texture2D" uid="uid://cglieg7a00wbt" path="res://assets/textures/sand_texture/GroundSand005_NRM_1K.jpg" id="3_wu5ro"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mspp5"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_b7j01"]
+sky_material = SubResource("ProceduralSkyMaterial_mspp5")
+
+[sub_resource type="Environment" id="Environment_rygrs"]
+background_mode = 2
+sky = SubResource("Sky_b7j01")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0s508"]
+albedo_texture = ExtResource("1_ehkkl")
+normal_enabled = true
+normal_texture = ExtResource("3_wu5ro")
+ao_enabled = true
+ao_texture = ExtResource("2_c17q7")
+heightmap_enabled = true
+heightmap_texture = ExtResource("2_v78wj")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0nsw8"]
+size = Vector2(200, 200)
+subdivide_width = 100
+subdivide_depth = 100
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_rygrs")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_0s508")
+mesh = SubResource("PlaneMesh_0nsw8")
