@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://di8gtw13lsr72"]
+
+[ext_resource type="Shader" path="res://assets/shaders/portal_shader.gdshader" id="1_inhln"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1p67a"]
+offset = Vector3(651.93, 0, 0)
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_v5fl4"]
+seamless = true
+noise = SubResource("FastNoiseLite_1p67a")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_inhln")
+shader_parameter/size = 0.5
+shader_parameter/size_inner = 0.2
+shader_parameter/intensity = 1.0
+shader_parameter/portalFrameColor = Color(0.325893, 0, 1, 1)
+shader_parameter/portalHighlightColor = Color(1, 1, 1, 1)
+shader_parameter/inner = Color(0, 0, 0, 1)
+shader_parameter/noise = SubResource("NoiseTexture2D_v5fl4")

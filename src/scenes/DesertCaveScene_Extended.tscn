@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=4 uid="uid://jnpqvgwevjl"]
+[gd_scene load_steps=57 format=4 uid="uid://jnpqvgwevjl"]
 
 [ext_resource type="PackedScene" uid="uid://b5tvgrv70krpk" path="res://scenes/prepared/temple_pillar_full.tscn" id="1_68wpb"]
 [ext_resource type="PackedScene" uid="uid://cfu10364mn16b" path="res://scenes/prepared/temple_pillar_broken.tscn" id="2_ulc4k"]
@@ -31,6 +31,9 @@
 [ext_resource type="PackedScene" uid="uid://bmkr6g26ix3ow" path="res://scenes/base/rocks/rock_big.tscn" id="24_vlupo"]
 [ext_resource type="PackedScene" uid="uid://bc1l4deuw25a0" path="res://scenes/base/rocks/rock_small.tscn" id="25_4mina"]
 [ext_resource type="Material" uid="uid://freibvmh272w" path="res://assets/materials/mat_rock.tres" id="26_7lai4"]
+[ext_resource type="Material" uid="uid://di8gtw13lsr72" path="res://assets/shaders/portal_shader_material.tres" id="28_s1v7s"]
+[ext_resource type="Script" path="res://scenes/Portal/portal.gd" id="29_pq4jp"]
+[ext_resource type="AudioStream" uid="uid://dtv4pq5pyj3ex" path="res://assets/audio/portal.mp3" id="30_icjd7"]
 
 [sub_resource type="Animation" id="Animation_qhe68"]
 length = 0.001
@@ -111,9 +114,12 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_0m1yi")
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_j4evs"]
+
 [sub_resource type="BoxMesh" id="BoxMesh_q0n3l"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ttlry"]
+size = Vector3(1, 1, 1.15845)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_em18r"]
 resource_name = "STONE"
@@ -824,7 +830,7 @@ shadow_enabled = true
 omni_range = 10.0
 
 [node name="Light5" type="OmniLight3D" parent="Temple/EndCap"]
-transform = Transform3D(0.270636, 0, 0, 0, 0.270636, 0, 0, 0, 0.04163, -0.0771765, 0.44957, -0.551544)
+transform = Transform3D(0.27063, -0.00178547, 0, 0.00178547, 0.27063, 0, 0, 0, 0.0416299, -0.0771765, 0.44957, -0.551544)
 light_color = Color(0.554124, 0.793055, 0.841518, 1)
 light_energy = 20.0
 light_size = 0.5
@@ -841,13 +847,18 @@ light_bake_mode = 1
 shadow_enabled = true
 omni_range = 10.0
 
-[node name="Light7" type="OmniLight3D" parent="Temple/EndCap"]
-transform = Transform3D(0.270636, 0, 0, 0, 0.270636, 0, 0, 0, 0.04163, -0.0811003, 0.44957, -1.48709)
-light_energy = 15.0
-light_size = 0.5
-light_bake_mode = 1
-shadow_enabled = true
-omni_range = 10.0
+[node name="Portal" type="MeshInstance3D" parent="Temple/EndCap"]
+transform = Transform3D(0.928936, 0, 0, 0, -4.37114e-08, -1.20195, 0, 1, -5.25391e-08, 0, -0.101199, -1.53558)
+material_override = ExtResource("28_s1v7s")
+mesh = SubResource("PlaneMesh_j4evs")
+skeleton = NodePath("")
+script = ExtResource("29_pq4jp")
+
+[node name="PortalSound" type="AudioStreamPlayer3D" parent="Temple/EndCap"]
+transform = Transform3D(0.270636, 0, 0, 0, 0.270636, 0, 0, 0, 0.0416299, 0, 0.0352204, -1.51979)
+stream = ExtResource("30_icjd7")
+volume_db = 2.0
+autoplay = true
 
 [node name="Ground" type="Node3D" parent="."]
 
@@ -858,11 +869,13 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 2.67217, 0.00764794, 12
 transform = Transform3D(7.62131, 0, 0, 0, 1, 0, 0, 0, 81.628, 4.26674, 3.28761, -65.013)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Tunner_Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.893403, 0, 0, 0.0671677)
 mesh = SubResource("BoxMesh_q0n3l")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Ground/Tunner_Floor/MeshInstance3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Tunner_Floor/MeshInstance3D/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999997, 0, 0, -0.0792235)
 shape = SubResource("BoxShape3D_ttlry")
 
 [node name="Rocks" type="Node3D" parent="."]
