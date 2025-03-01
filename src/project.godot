@@ -15,6 +15,10 @@ run/main_scene="res://Main_Extended.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://project-icon.png"
 
+[autoload]
+
+SceneTransition="*res://scenes/scene_transition.tscn"
+
 [display]
 
 window/size/viewport_width=1920

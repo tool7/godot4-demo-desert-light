@@ -7,7 +7,7 @@ func _enter_tree():
 	%MainMenu.modulate.a = 0.0
 
 
-func _ready():	
+func _ready():
 	$WorldEnvironment.environment.adjustment_brightness = 0.01
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	var tween = get_tree().create_tween()

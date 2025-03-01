@@ -45,3 +45,6 @@ shadow_enabled = true
 [node name="Floor" type="MeshInstance3D" parent="."]
 material_override = SubResource("StandardMaterial3D_0s508")
 mesh = SubResource("PlaneMesh_0nsw8")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.908391, 0.418121, 0, -0.418121, 0.908391, 0, 1.26375, 1.27439)
