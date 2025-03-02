@@ -1,0 +1,11 @@
+Model Information:
+* title:	Forgotten Temple
+* source:	https://sketchfab.com/3d-models/forgotten-temple-3b06ade7bf0f4bdc88c2484557bcd40a
+* author:	AyKay (https://sketchfab.com/AyKay1)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Forgotten Temple" (https://sketchfab.com/3d-models/forgotten-temple-3b06ade7bf0f4bdc88c2484557bcd40a) by AyKay (https://sketchfab.com/AyKay1) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
