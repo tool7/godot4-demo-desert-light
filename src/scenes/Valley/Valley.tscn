@@ -1,17 +1,18 @@
-[gd_scene load_steps=12 format=3 uid="uid://bxgpfghm64114"]
+[gd_scene load_steps=13 format=3 uid="uid://bxgpfghm64114"]
 
 [ext_resource type="Texture2D" uid="uid://cytmvlyglm1g4" path="res://assets/textures/sand_texture/GroundSand005_COL_1K.jpg" id="1_ehkkl"]
 [ext_resource type="Script" path="res://scenes/Valley/valley.gd" id="1_jil37"]
+[ext_resource type="Texture2D" uid="uid://b7vq3opk2exjc" path="res://assets/textures/night_sky_texture.hdr" id="2_7w00i"]
 [ext_resource type="Texture2D" uid="uid://bl6qvg0xahy43" path="res://assets/textures/sand_texture/GroundSand005_AO_1K.jpg" id="2_c17q7"]
 [ext_resource type="Texture2D" uid="uid://cglieg7a00wbt" path="res://assets/textures/sand_texture/GroundSand005_NRM_1K.jpg" id="3_wu5ro"]
 [ext_resource type="PackedScene" uid="uid://bdupkh0grwy27" path="res://scenes/Player/Player.tscn" id="4_ro27m"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mspp5"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_3wl20"]
+panorama = ExtResource("2_7w00i")
+energy_multiplier = 0.25
 
 [sub_resource type="Sky" id="Sky_b7j01"]
-sky_material = SubResource("ProceduralSkyMaterial_mspp5")
+sky_material = SubResource("PanoramaSkyMaterial_3wl20")
 
 [sub_resource type="Environment" id="Environment_rygrs"]
 background_mode = 2
@@ -40,10 +41,6 @@ script = ExtResource("1_jil37")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rygrs")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
-shadow_enabled = true
 
 [node name="Floor" type="StaticBody3D" parent="."]
 
