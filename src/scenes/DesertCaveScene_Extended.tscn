@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=4 uid="uid://jnpqvgwevjl"]
+[gd_scene load_steps=58 format=4 uid="uid://jnpqvgwevjl"]
 
 [ext_resource type="PackedScene" uid="uid://b5tvgrv70krpk" path="res://scenes/prepared/temple_pillar_full.tscn" id="1_68wpb"]
 [ext_resource type="PackedScene" uid="uid://cfu10364mn16b" path="res://scenes/prepared/temple_pillar_broken.tscn" id="2_ulc4k"]
@@ -115,6 +115,9 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_0m1yi")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_j4evs"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2ohtf"]
+size = Vector3(1.94556, 2.28125, 0.0869141)
 
 [sub_resource type="BoxMesh" id="BoxMesh_q0n3l"]
 
@@ -860,6 +863,15 @@ stream = ExtResource("30_icjd7")
 volume_db = 2.0
 autoplay = true
 
+[node name="PortalArea" type="Area3D" parent="Temple/EndCap"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.56285)
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Temple/EndCap/PortalArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0175781)
+shape = SubResource("BoxShape3D_2ohtf")
+
 [node name="Ground" type="Node3D" parent="."]
 
 [node name="groundsand" parent="Ground" instance=ExtResource("23_4nvyg")]
@@ -1118,3 +1130,5 @@ transform = Transform3D(0.825508, 0.564391, 0, -0.564391, 0.825508, 0, 0, 0, 1, 
 material_override = ExtResource("26_7lai4")
 mesh = SubResource("ArrayMesh_s0onf")
 skeleton = NodePath("")
+
+[connection signal="body_entered" from="Temple/EndCap/PortalArea" to="Temple/EndCap/Portal" method="_on_portal_area_body_entered"]

@@ -16,3 +16,8 @@ func _process(delta: float) -> void:
 		material_override.set("shader_parameter/intensity", 0.0)
 	elif distance_to_player > MAX:
 		material_override.set("shader_parameter/intensity", 1.0)
+
+
+func _on_portal_area_body_entered(body: Node3D) -> void:	
+	if body is MovementController:
+		SceneTransition.change_scene("res://scenes/Valley/Valley.tscn")
