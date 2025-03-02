@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bxgpfghm64114"]
+[gd_scene load_steps=14 format=3 uid="uid://bxgpfghm64114"]
 
 [ext_resource type="Texture2D" uid="uid://cytmvlyglm1g4" path="res://assets/textures/sand_texture/GroundSand005_COL_1K.jpg" id="1_ehkkl"]
 [ext_resource type="Script" path="res://scenes/Valley/valley.gd" id="1_jil37"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bl6qvg0xahy43" path="res://assets/textures/sand_texture/GroundSand005_AO_1K.jpg" id="2_c17q7"]
 [ext_resource type="Texture2D" uid="uid://cglieg7a00wbt" path="res://assets/textures/sand_texture/GroundSand005_NRM_1K.jpg" id="3_wu5ro"]
 [ext_resource type="PackedScene" uid="uid://bdupkh0grwy27" path="res://scenes/Player/Player.tscn" id="4_ro27m"]
+[ext_resource type="PackedScene" uid="uid://bals6bp1f5vrk" path="res://scenes/ForgottenTemple/forgotten_temple.tscn" id="7_ktgyd"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_3wl20"]
 panorama = ExtResource("2_7w00i")
@@ -16,9 +17,15 @@ sky_material = SubResource("PanoramaSkyMaterial_3wl20")
 
 [sub_resource type="Environment" id="Environment_rygrs"]
 background_mode = 2
+background_energy_multiplier = 0.75
 sky = SubResource("Sky_b7j01")
-tonemap_mode = 2
+tonemap_mode = 3
+ssao_enabled = true
 glow_enabled = true
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.01
+volumetric_fog_emission = Color(1, 1, 1, 1)
+volumetric_fog_emission_energy = 0.07
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0s508"]
 albedo_texture = ExtResource("1_ehkkl")
@@ -39,8 +46,19 @@ data = PackedVector3Array(250, 0, 250, 245.049, 0, 250, 250, 0, 245.049, 245.049
 [node name="Valley" type="Node3D"]
 script = ExtResource("1_jil37")
 
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.647295, -0.521281, -0.556126, 0.448885, -0.850352, 0.274598, -0.616045, -0.0718904, 0.784423, 0, 32.081, 0)
+light_color = Color(0.763393, 0.91761, 1, 1)
+light_energy = 0.1
+light_volumetric_fog_energy = 2.0
+shadow_enabled = true
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rygrs")
+
+[node name="Player" parent="." instance=ExtResource("4_ro27m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.71054, 92.7596)
+speed = 20
 
 [node name="Floor" type="StaticBody3D" parent="."]
 
@@ -52,5 +70,43 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
 shape = SubResource("ConcavePolygonShape3D_pp3gk")
 
-[node name="Player" parent="." instance=ExtResource("4_ro27m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.71054, 3.46125)
+[node name="Temple" parent="." instance=ExtResource("7_ktgyd")]
+transform = Transform3D(0.272985, 0, 0.962018, 0, 1, 0, -0.962018, 0, 0.272985, 8.69464, 0, -19.519)
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(0.689051, 0, -0.724713, 0, 1, 0, 0.724713, 0, 0.689051, 48.5376, 10.5986, -85.7795)
+light_color = Color(0.993304, 0.852076, 0.22172, 1)
+light_energy = 20.0
+omni_range = 30.0
+
+[node name="OmniLight3D_2" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(-0.0504185, 0, -0.998728, 0, 1, 0, 0.998728, 0, -0.0504185, 30.9743, 17.9662, -29.9014)
+light_color = Color(0.470982, 1, 0.98583, 1)
+light_energy = 20.0
+omni_range = 35.0
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Lights"]
+transform = Transform3D(-0.965359, -0.0214171, 0.260046, 0.148793, 0.773514, 0.616065, -0.214344, 0.633417, -0.743532, 50.6709, 18.3601, -94.4828)
+light_color = Color(1, 0.786053, 0.495536, 1)
+light_energy = 20.0
+light_volumetric_fog_energy = 20.0
+spot_range = 50.0
+spot_angle = 30.0
+
+[node name="SpotLight3D_2" type="SpotLight3D" parent="Lights"]
+transform = Transform3D(0.353755, 0.848511, -0.393555, 0.274762, 0.307927, 0.910871, 0.894071, -0.43036, -0.124208, 5.85701, 16.874, -3.47417)
+light_color = Color(1, 0.786053, 0.495536, 1)
+light_energy = 20.0
+light_volumetric_fog_energy = 20.0
+spot_range = 50.0
+spot_angle = 30.0
+
+[node name="SpotLight3D_3" type="SpotLight3D" parent="Lights"]
+transform = Transform3D(-0.899118, 0.152441, 0.410303, 0.378342, -0.200699, 0.903647, 0.220101, 0.96772, 0.122777, 40.0078, 17.0402, 6.22087)
+light_color = Color(1, 0.786053, 0.495536, 1)
+light_energy = 20.0
+light_volumetric_fog_energy = 20.0
+spot_range = 50.0
+spot_angle = 30.0
