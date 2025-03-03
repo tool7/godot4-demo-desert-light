@@ -35,7 +35,7 @@ var is_active := false:
 
 func _input(event: InputEvent) -> void:
 	# This would need a much better logic of determining if interacting with something
-	var is_interactable_focused = gate_lever_interactable_area.visible
+	var is_interactable_focused = gate_lever_interactable_area != null and gate_lever_interactable_area.visible
 	if is_interactable_focused && event.is_action_pressed("interact"):
 		interact()
 
@@ -61,9 +61,9 @@ func _physics_process(delta: float) -> void:
 	
 	if raycast.is_colliding():
 		var collider = raycast.get_collider()
-		if collider is Area3D:
+		if collider.name == "GateLeverInteractableArea":
 			gate_lever_interactable_area.visible = true
-	else:
+	elif gate_lever_interactable_area != null:
 		gate_lever_interactable_area.visible = false
 
 
