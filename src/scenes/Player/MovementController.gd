@@ -8,10 +8,15 @@ class_name MovementController
 @export_range(0.0, 1.0, 0.05) var air_control := 0.3
 @export var jump_height := 10
 
+@onready var raycast: RayCast3D = $Head/RayCast3D
+
 @onready var gate_lever_animation_player: AnimationPlayer = get_node("%TempleScene/%GateLever/AnimationPlayer")
 @onready var gate_lever_audio_player: AudioStreamPlayer3D = get_node("%TempleScene/%GateLeverAudioPlayer")
+@onready var gate_lever_interactable_area: Area3D = get_node("%TempleScene/%GateLeverInteractableArea")
 @onready var door_open_animation_player: AnimationPlayer = get_node("%TempleScene/%DoorOpenAnimationPlayer")
 @onready var door_open_audio_player: AudioStreamPlayer3D = get_node("%TempleScene/%TempleDoorAudioPlayer")
+
+var door_opened = false
 
 var direction := Vector3()
 var input_axis := Vector2()
@@ -29,7 +34,9 @@ var is_active := false:
 		* gravity_multiplier)
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("interact"):
+	# This would need a much better logic of determining if interacting with something
+	var is_interactable_focused = gate_lever_interactable_area.visible
+	if is_interactable_focused && event.is_action_pressed("interact"):
 		interact()
 
 # Called every physics tick. 'delta' is constant
@@ -48,6 +55,16 @@ func _physics_process(delta: float) -> void:
 	accelerate(delta)
 	
 	move_and_slide()
+	
+	if door_opened:
+		return
+	
+	if raycast.is_colliding():
+		var collider = raycast.get_collider()
+		if collider is Area3D:
+			gate_lever_interactable_area.visible = true
+	else:
+		gate_lever_interactable_area.visible = false
 
 
 func direction_input() -> void:
@@ -78,6 +95,9 @@ func accelerate(delta: float) -> void:
 	velocity.z = temp_vel.z
 
 func interact():
+	door_opened = true
+	gate_lever_interactable_area.visible = false
+	
 	gate_lever_animation_player.play("Take 001")
 	gate_lever_audio_player.play()
 	
