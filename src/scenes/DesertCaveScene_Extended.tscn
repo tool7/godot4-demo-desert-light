@@ -80,11 +80,11 @@ size = Vector3(1.10718, 1.28613, 1.35449)
 [sub_resource type="ViewportTexture" id="ViewportTexture_sdcxo"]
 viewport_path = NodePath("Temple/Entrance/GateLeverNode/GateLeverInteractableArea/Sprite3D/SubViewport")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jxoly"]
-bg_color = Color(0, 0, 0, 0.901961)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7y1vv"]
+bg_color = Color(0.102679, 0.102679, 0.102679, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_8p571"]
-font_size = 12
+[sub_resource type="LabelSettings" id="LabelSettings_tsm6r"]
+font_size = 36
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qgjf3"]
 albedo_texture = ExtResource("23_06wxj")
@@ -814,7 +814,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.03954, 1.39563, 1.64651)
 shape = SubResource("BoxShape3D_ngss4")
 
 [node name="Sprite3D" type="Sprite3D" parent="Temple/Entrance/GateLeverNode/GateLeverInteractableArea"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.29464, 0.628484, -0.0244274)
+transform = Transform3D(-1.09278e-08, 0, 0.25, 0, 0.25, 0, -0.25, 0, -1.09278e-08, 0.191505, -0.490697, 0.00858307)
 billboard = 1
 double_sided = false
 no_depth_test = true
@@ -829,33 +829,22 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -35.0
-offset_top = -15.0
-offset_right = 33.0
-offset_bottom = 9.0
+offset_left = -66.0
+offset_top = -30.0
+offset_right = 74.0
+offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_jxoly")
+theme_override_styles/panel = SubResource("StyleBoxFlat_7y1vv")
 
 [node name="Label" type="Label" parent="Temple/Entrance/GateLeverNode/GateLeverInteractableArea/Sprite3D/SubViewport/Panel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -23.0
-offset_top = -11.5
-offset_right = 23.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_left = 10.0
+offset_top = 3.0
+offset_right = 127.0
+offset_bottom = 53.0
 text = "[F] Use"
-label_settings = SubResource("LabelSettings_8p571")
-horizontal_alignment = 1
-vertical_alignment = 1
+label_settings = SubResource("LabelSettings_tsm6r")
 
 [node name="EndCap" type="MeshInstance3D" parent="Temple"]
 transform = Transform3D(3.695, 0, 0, 0, 3.695, 0, 0, 0, 24.0212, 4.26274, 8.13512, -62.7177)
