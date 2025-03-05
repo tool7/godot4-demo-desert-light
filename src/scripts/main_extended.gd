@@ -28,6 +28,8 @@ func _ready():
 	
 	get_tree().get_nodes_in_group("player_camera")[0].make_current()
 	get_tree().get_nodes_in_group("player")[0].is_active = true
+	
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 
 
 func _physics_process(delta):
