@@ -1,13 +1,14 @@
-[gd_scene load_steps=16 format=3 uid="uid://bxgpfghm64114"]
+[gd_scene load_steps=17 format=3 uid="uid://bxgpfghm64114"]
 
 [ext_resource type="Texture2D" uid="uid://cytmvlyglm1g4" path="res://assets/textures/sand_texture/GroundSand005_COL_1K.jpg" id="1_ehkkl"]
 [ext_resource type="Script" path="res://scenes/Valley/valley.gd" id="1_jil37"]
 [ext_resource type="Texture2D" uid="uid://b7vq3opk2exjc" path="res://assets/textures/night_sky_texture.hdr" id="2_7w00i"]
 [ext_resource type="Texture2D" uid="uid://bl6qvg0xahy43" path="res://assets/textures/sand_texture/GroundSand005_AO_1K.jpg" id="2_c17q7"]
-[ext_resource type="AudioStream" uid="uid://bg4vqlkn8yw2j" path="res://assets/audio/desert.mp3" id="3_lqymr"]
 [ext_resource type="Texture2D" uid="uid://cglieg7a00wbt" path="res://assets/textures/sand_texture/GroundSand005_NRM_1K.jpg" id="3_wu5ro"]
 [ext_resource type="PackedScene" uid="uid://bdupkh0grwy27" path="res://scenes/Player/Player.tscn" id="4_ro27m"]
 [ext_resource type="PackedScene" uid="uid://bals6bp1f5vrk" path="res://scenes/ForgottenTemple/forgotten_temple.tscn" id="7_ktgyd"]
+[ext_resource type="PackedScene" uid="uid://emlef3efmq2e" path="res://scenes/Monster/monster.tscn" id="9_55vpi"]
+[ext_resource type="Script" path="res://scenes/Monster/monster.gd" id="9_abkfb"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_3wl20"]
 panorama = ExtResource("2_7w00i")
@@ -62,12 +63,8 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rygrs")
 
-[node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_lqymr")
-autoplay = true
-
 [node name="Player" parent="." instance=ExtResource("4_ro27m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.71054, 92.7596)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.71054, 131.353)
 speed = 20
 
 [node name="Lights" type="Node3D" parent="."]
@@ -123,3 +120,9 @@ shape = SubResource("ConcavePolygonShape3D_pp3gk")
 
 [node name="Temple" parent="NavigationRegion3D" instance=ExtResource("7_ktgyd")]
 transform = Transform3D(0.272985, 0, 0.962018, 0, 1, 0, -0.962018, 0, 0.272985, 8.69464, 0, -19.519)
+
+[node name="Monster" parent="NavigationRegion3D" instance=ExtResource("9_55vpi")]
+unique_name_in_owner = true
+transform = Transform3D(-5.80214, 0, 1.52812, 0, 6, 0, -1.52812, 0, -5.80214, 28.013, 0, -129.592)
+script = ExtResource("9_abkfb")
+player_path = NodePath("../../Player")

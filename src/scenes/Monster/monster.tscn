@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=4 uid="uid://emlef3efmq2e"]
+[gd_scene load_steps=13 format=4 uid="uid://emlef3efmq2e"]
 
 [ext_resource type="Texture2D" uid="uid://dhcjsaq7d8wda" path="res://assets/meshes/monster_pumpkinHulk_diffuse.png" id="1_i4h7o"]
 [ext_resource type="Texture2D" uid="uid://cr5sp5jq7ss06" path="res://assets/meshes/monster_pumpkinHulk_normal.png" id="2_whnkv"]
+[ext_resource type="AudioStream" uid="uid://c1errfnt6howm" path="res://assets/audio/trap_song.wav" id="3_tqd60"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5d068"]
 resource_name = "PumpkinHulk_Material"
@@ -9,7 +10,6 @@ cull_mode = 2
 albedo_texture = ExtResource("1_i4h7o")
 metallic = 0.5
 roughness = 0.776393
-emission_enabled = true
 normal_enabled = true
 normal_texture = ExtResource("2_whnkv")
 
@@ -1021,6 +1021,7 @@ tracks/110/keys = PackedFloat32Array(0, 1, 3.81354e-06, 18.0881, 5.64731e-07)
 [sub_resource type="Animation" id="Animation_nvjyw"]
 resource_name = "dancing"
 length = 13.8
+loop_mode = 1
 tracks/0/type = "position_3d"
 tracks/0/imported = true
 tracks/0/enabled = true
@@ -3370,9 +3371,10 @@ _data = {
 }
 
 [node name="monster" type="CharacterBody3D"]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
 
 [node name="Armature" type="Node3D" parent="."]
-transform = Transform3D(0.01, 0, 0, 0, -1.19209e-09, -0.01, 0, 0.01, -1.19209e-09, 0, 0, 0)
+transform = Transform3D(-0.01, -8.74228e-10, 3.82137e-17, 0, -4.37114e-10, -0.01, 8.74228e-10, -0.01, 4.37114e-10, 0, 0, 0)
 
 [node name="Skeleton3D" type="Skeleton3D" parent="Armature"]
 bones/0/name = "mixamorig_Hips"
@@ -3847,8 +3849,29 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.989175, 0)
 shape = SubResource("CapsuleShape3D_clua4")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+unique_name_in_owner = true
+path_height_offset = 0.2
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.166667, 0, 0, 0, 0.166667, 0, 0, 0, 0.166667, 0, 0, 0)
+stream = ExtResource("3_tqd60")
+volume_db = 2.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_3w1ae")
 }
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(0.166667, 0, 0, 0, -0.163508, 0.0322925, 0, -0.0322925, -0.163508, 0, 1.34784, -1.47464)
+light_color = Color(1, 0.990948, 0.853081, 1)
+light_energy = 10.0
+spot_range = 15.0
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(0.166667, 0, 0, 0, -0.0831216, 0.14446, 0, -0.14446, -0.0831216, 0, 2.85026, -1.1)
+light_color = Color(1, 0.990948, 0.853081, 1)
+light_energy = 8.0
+spot_range = 20.0
